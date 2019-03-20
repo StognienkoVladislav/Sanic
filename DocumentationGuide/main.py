@@ -37,7 +37,7 @@ async def test_request_args(request):
 
 
 @app.route('/files')
-def post_json(request):
+async def post_json(request):
     test_file = request.files.get('test')
 
     file_parameters = {
@@ -51,6 +51,16 @@ def post_json(request):
         'file_names': request.files.keys(),
         'test_file_parameters': file_parameters
     })
+
+
+@app.route('/form')
+async def post_form_json(requst):
+    return json({'received': True, 'form_data': requst.form, 'test': requst.form.get('test')})
+
+
+@app.route('/users', methods=['POST',])
+def create_user(request):
+    return text('You are trying to create a user with the following POST: {}'.format(request.body))
 
 
 if __name__ == '__main__':
